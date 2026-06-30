@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TecPark - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#f8f9ff",
+                    "primary-container": "#131b2e",
+                    "surface-tint": "#565e74",
+                    "inverse-surface": "#213145",
+                    "surface-dim": "#cbdbf5",
+                    "inverse-primary": "#bec6e0",
+                    "on-tertiary-fixed-variant": "#3a485c",
+                    "secondary-container": "#fea619",
+                    "primary-fixed": "#dae2fd",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-fixed": "#0d1c2f",
+                    "on-primary-fixed": "#131b2e",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-secondary-fixed": "#2a1700",
+                    "surface-container-high": "#dce9ff",
+                    "tertiary-fixed": "#d5e3fd",
+                    "tertiary": "#000000",
+                    "on-surface": "#0b1c30",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#ffddb8",
+                    "surface": "#f8f9ff",
+                    "outline-variant": "#c6c6cd",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-bright": "#f8f9ff",
+                    "primary": "#000000",
+                    "surface-container": "#e5eeff",
+                    "on-error-container": "#93000a",
+                    "on-surface-variant": "#45464d",
+                    "on-tertiary-container": "#76859b",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "on-background": "#0b1c30",
+                    "surface-variant": "#d3e4fe",
+                    "secondary": "#855300",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "on-secondary-container": "#684000",
+                    "tertiary-container": "#0d1c2f",
+                    "outline": "#76777d",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "on-primary-container": "#7c839b",
+                    "tertiary-fixed-dim": "#b9c7e0",
+                    "surface-container-low": "#eff4ff",
+                    "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "stack-md": "16px",
+                    "stack-sm": "8px",
+                    "gutter": "12px",
+                    "container-padding-desktop": "32px",
+                    "stack-lg": "32px",
+                    "container-padding-mobile": "16px"
+            },
+            "fontFamily": {
+                    "data-display": ["JetBrains Mono"],
+                    "label-mono": ["JetBrains Mono"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "data-display": ["18px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "label-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8f9ff;
+            -webkit-font-smoothing: antialiased;
+        }
+        .login-card {
+            box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.08);
+            border: 1px solid #E2E8F0;
+        }
+        .industrial-focus:focus {
+            outline: 2px solid #000000;
+            outline-offset: 2px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-background min-h-screen flex flex-col md:flex-row">
+<!-- Hero Section / Brand Visual (Desktop Only) -->
+<section class="hidden md:flex md:w-1/2 lg:w-3/5 bg-primary-container relative items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-20">
+<div class="w-full h-full bg-cover bg-center" data-alt="A professional architectural photograph of a high-tech modern parking facility with clean lines, minimalist concrete surfaces, and sophisticated blue lighting. The atmosphere is industrial yet technologically advanced, featuring sleek geometric patterns and a sense of absolute security and efficiency. The color palette is dominated by deep navy blues and sharp metallic whites." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCeB4HOkzL398Upgizq3b6-DhaPuIkBKYjKeenqHCzej4R20lp-QOQXrw75TvP7wd_1otD43g7BhjGbD1XnfgMTDtVTypOoj2gQbtEVgC7munt4vqxNunZ9NuKoYE2HW1sumqbkPlV6yNZd4r2sehDE3ikFU_K9U48pGt5OFPDJjziOhoP-2jahlPkneWXUGkzr-6c6uMF92WG942QfITVyqQP-wac6_06XEude3Nbmz-0JXZYhI8JhVkzPlFB3cADMBYhAlx7hwoTS')"></div>
+</div>
+<div class="relative z-10 p-container-padding-desktop flex flex-col items-start gap-stack-md max-w-xl">
+<div class="flex items-center gap-stack-sm mb-stack-lg">
+<span class="material-symbols-outlined text-secondary-container text-6xl">local_parking</span>
+<h1 class="font-display-lg text-display-lg text-white tracking-tighter">TECPARK</h1>
+</div>
+<p class="font-headline-md text-headline-md text-white/90">Gestão Inteligente de Ativos e Mobilidade Urbana.</p>
+<p class="font-body-lg text-body-lg text-white/70">Acesse a plataforma de monitoramento em tempo real para otimização de fluxo e controle de ocupação industrial.</p>
+</div>
+</section>
+<!-- Login Form Section -->
+<main class="flex-1 flex items-center justify-center p-container-padding-mobile md:p-container-padding-desktop bg-background">
+<div class="w-full max-w-md">
+<!-- Mobile Brand Identity (Hidden on Desktop) -->
+<div class="md:hidden flex flex-col items-center mb-stack-lg gap-stack-sm">
+<div class="flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-secondary text-4xl">local_parking</span>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tighter">TECPARK</h1>
+</div>
+<p class="font-body-md text-on-surface-variant text-center">Gestão de Mobilidade</p>
+</div>
+<!-- Login Card -->
+<div class="bg-surface-container-lowest p-stack-lg login-card rounded-lg border border-outline-variant">
+<header class="mb-stack-lg">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Entrar no Sistema</h2>
+<p class="font-body-md text-on-surface-variant">Insira suas credenciais industriais para continuar.</p>
+</header>
+<form id="login-form" action="#" class="flex flex-col gap-stack-md" method="POST">
+<div id="error-message" class="hidden font-body-md text-error bg-error-container p-2 rounded"></div>
+<!-- Email Field -->
+<div class="flex flex-col gap-unit">
+<label class="font-label-mono text-label-mono text-on-surface-variant" for="email">E-MAIL CORPORATIVO</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-stack-sm top-1/2 -translate-y-1/2 text-on-surface-variant/60">alternate_email</span>
+<input class="w-full bg-[#F1F5F9] border-none rounded-DEFAULT pl-10 pr-stack-sm py-3 font-data-display text-data-display industrial-focus placeholder:text-on-surface-variant/30 text-primary-container" id="email" name="email" placeholder="usuario@tecpark.com.br" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-unit">
+<div class="flex justify-between items-center">
+<label class="font-label-mono text-label-mono text-on-surface-variant" for="password">SENHA DE ACESSO</label>
+<a class="font-label-mono text-label-mono text-secondary hover:underline transition-colors" href="#">Esqueci minha senha</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-stack-sm top-1/2 -translate-y-1/2 text-on-surface-variant/60">lock</span>
+<input class="w-full bg-[#F1F5F9] border-none rounded-DEFAULT pl-10 pr-12 py-3 font-data-display text-data-display industrial-focus placeholder:text-on-surface-variant/30 text-primary-container" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-stack-sm top-1/2 -translate-y-1/2 text-on-surface-variant/60 hover:text-primary transition-colors" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined" id="eye-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="mt-stack-sm w-full bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-white font-headline-sm text-headline-sm py-4 rounded-DEFAULT transition-all duration-150 active:scale-95 flex items-center justify-center gap-stack-sm shadow-sm" type="submit">
+<span>Acessar Painel</span>
+<span class="material-symbols-outlined">login</span>
+</button>
+</form>
+<footer class="mt-stack-lg pt-stack-md border-t border-outline-variant flex flex-col gap-stack-sm items-center">
+<p class="font-body-md text-on-surface-variant">Dificuldades no acesso?</p>
+<button class="font-label-mono text-label-mono border border-outline px-4 py-2 rounded-DEFAULT hover:bg-surface-container transition-colors">
+                        SOLICITAR SUPORTE TÉCNICO
+                    </button>
+</footer>
+</div>
+<!-- Footer Meta -->
+<div class="mt-stack-md flex justify-between items-center px-unit">
+<span class="font-label-mono text-[10px] text-on-surface-variant/50 uppercase tracking-widest">TecPark v2.4.0</span>
+<span class="font-label-mono text-[10px] text-on-surface-variant/50 uppercase tracking-widest">Secure Industrial Node: 0x442</span>
+</div>
+</div>
+</main>
+<script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.textContent = 'visibility_off';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.textContent = 'visibility';
+            }
+        }
+
+        // Industrial-style micro-interaction for form focus
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.parentElement.querySelector('label').style.color = '#fea619';
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.parentElement.querySelector('label').style.color = '';
+            });
+        });
+    </script>
+    <script type="module" src="./login.js"></script>
+</body></html>

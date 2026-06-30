@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TECPARK - Registro de Veículo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#f8f9ff",
+                    "primary-container": "#131b2e",
+                    "surface-tint": "#565e74",
+                    "inverse-surface": "#213145",
+                    "surface-dim": "#cbdbf5",
+                    "inverse-primary": "#bec6e0",
+                    "on-tertiary-fixed-variant": "#3a485c",
+                    "secondary-container": "#fea619",
+                    "primary-fixed": "#dae2fd",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-tertiary-fixed": "#0d1c2f",
+                    "on-primary-fixed": "#131b2e",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-secondary-fixed": "#2a1700",
+                    "surface-container-high": "#dce9ff",
+                    "tertiary-fixed": "#d5e3fd",
+                    "tertiary": "#000000",
+                    "on-surface": "#0b1c30",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#ffddb8",
+                    "surface": "#f8f9ff",
+                    "outline-variant": "#c6c6cd",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#d3e4fe",
+                    "surface-bright": "#f8f9ff",
+                    "primary": "#000000",
+                    "surface-container": "#e5eeff",
+                    "on-error-container": "#93000a",
+                    "on-surface-variant": "#45464d",
+                    "on-tertiary-container": "#76859b",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "on-background": "#0b1c30",
+                    "surface-variant": "#d3e4fe",
+                    "secondary": "#855300",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#ffb95f",
+                    "on-secondary-container": "#684000",
+                    "tertiary-container": "#0d1c2f",
+                    "outline": "#76777d",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#653e00",
+                    "on-primary-container": "#7c839b",
+                    "tertiary-fixed-dim": "#b9c7e0",
+                    "surface-container-low": "#eff4ff",
+                    "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "stack-md": "16px",
+                    "stack-sm": "8px",
+                    "gutter": "12px",
+                    "container-padding-desktop": "32px",
+                    "stack-lg": "32px",
+                    "container-padding-mobile": "16px"
+            },
+            "fontFamily": {
+                    "data-display": ["JetBrains Mono"],
+                    "label-mono": ["JetBrains Mono"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "data-display": ["18px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "label-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #f8f9ff; font-family: 'Inter', sans-serif; }
+        .license-plate-input { text-transform: uppercase; }
+        .technical-shadow { box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08); }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-item { border-radius: 9999px; }
+    </style>
+<style>
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+    header {
+        top: env(safe-area-inset-top) !important;
+    }
+</style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col mb-24 overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-surface dark:bg-primary-container border-b border-outline-variant dark:border-outline z-50 transition-all duration-150">
+<div class="flex items-center justify-between px-container-padding-mobile md:px-container-padding-desktop h-16 w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" style="font-variation-settings: 'FILL' 1; font-size: 28px;">local_parking</span>
+<h1 class="font-display-lg text-display-lg tracking-tighter text-primary dark:text-primary-fixed">TECPARK</h1>
+</div>
+<div class="hidden md:flex items-center gap-stack-lg">
+<a href="/registro.html" class="font-label-mono text-label-mono text-primary dark:text-secondary-fixed-dim uppercase">Registro</a>
+<a href="/relatorios.html" class="font-label-mono text-label-mono text-on-surface-variant dark:text-surface-variant uppercase hover:bg-surface-container dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Relatórios</a>
+<a href="/configuracao.html" class="font-label-mono text-label-mono text-on-surface-variant dark:text-surface-variant uppercase hover:bg-surface-container dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Configurações</a>
+</div>
+<div class="relative flex items-center gap-2 group cursor-pointer p-2">
+<span class="font-label-mono text-[10px] text-on-surface-variant hidden sm:block user-email-display uppercase">Usuário</span>
+<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+<div class="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-primary-container border border-outline-variant dark:border-outline rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+<button class="w-full text-left px-4 py-3 font-label-mono text-label-mono text-error hover:bg-surface-container dark:hover:bg-inverse-surface flex items-center gap-2 btn-logout transition-colors">
+<span class="material-symbols-outlined text-sm">logout</span>
+Sair do Sistema
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow w-full max-w-4xl mx-auto px-container-padding-mobile md:px-container-padding-desktop py-stack-lg flex flex-col gap-stack-lg mb-24">
+<!-- Registration Card -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-lg p-stack-md technical-shadow">
+<div class="flex flex-col gap-stack-md">
+<header class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-primary">Novo Registro</h2>
+<span class="font-label-mono text-label-mono text-on-surface-variant bg-surface-container px-2 py-1 rounded">ESTAÇÃO 04</span>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<!-- License Plate Input -->
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase">Placa do Veículo</label>
+<input class="license-plate-input font-data-display text-data-display bg-[#F1F5F9] border-2 border-outline rounded-lg px-4 py-3 focus:border-primary focus:ring-0 w-full transition-all" id="plate-input" maxlength="8" placeholder="ABC-1234" type="text"/>
+</div>
+<!-- Time Display (Server Emulation) -->
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-mono text-label-mono text-on-surface-variant uppercase">Horário Atual (Servidor)</label>
+<div class="bg-surface-container border border-outline-variant rounded-lg px-4 py-3 flex items-center justify-between">
+<span class="font-data-display text-data-display text-primary" id="current-time">14:35:02</span>
+<span class="material-symbols-outlined text-on-surface-variant">schedule</span>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md mt-stack-sm">
+<button id="btn-entrada" class="bg-secondary-container text-on-secondary-container font-headline-sm text-headline-sm py-4 rounded transition-transform active:scale-95 flex items-center justify-center gap-2 border-b-4 border-[#C88400]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">login</span>
+                        REGISTRAR ENTRADA
+                    </button>
+<button id="btn-saida" class="bg-primary text-on-primary font-headline-sm text-headline-sm py-4 rounded transition-transform active:scale-95 flex items-center justify-center gap-2 border-b-4 border-slate-700">
+<span class="material-symbols-outlined">logout</span>
+                        REGISTRAR SAÍDA
+                    </button>
+</div>
+</div>
+</section>
+<!-- Active Vehicles List -->
+<section class="flex flex-col gap-stack-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-primary">Veículos Ativos</h3>
+<span id="active-count-badge" class="bg-primary text-on-primary font-label-mono text-label-mono px-3 py-1 rounded-full">0 VAGAS OCUPADAS</span>
+</div>
+<div id="active-vehicles-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-stack-sm">
+<!-- Lista populada dinamicamente via JS -->
+</div>
+</section>
+<!-- Visualization/Atmosphere (Bento-style detail) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md mt-4">
+<div class="md:col-span-2 relative h-48 rounded-lg overflow-hidden technical-shadow border border-outline-variant bg-slate-900">
+<div class="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none">
+
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-4 flex flex-col justify-end">
+<p class="font-headline-sm text-white">Monitoramento em Tempo Real</p>
+<p class="font-body-md text-white/70">Fluxo de tráfego otimizado na entrada principal.</p>
+</div>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-4 flex flex-col justify-center items-center gap-2 technical-shadow">
+<span class="material-symbols-outlined text-4xl text-secondary">analytics</span>
+<span id="capacity-percentage" class="font-display-lg text-display-lg text-primary">0%</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant text-center uppercase">Capacidade Atual</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 h-20 bg-surface dark:bg-primary-container border-t border-outline-variant dark:border-outline md:hidden">
+<div class="flex justify-around items-center w-full px-4 h-full">
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-5 py-1 transition-transform duration-200 active:scale-90" href="/registro.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">app_registration</span>
+<span class="font-label-mono text-[10px] uppercase mt-1">Registro</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2" href="/relatorios.html">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-mono text-[10px] uppercase mt-1">Relatórios</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2" href="/configuracao.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-mono text-[10px] uppercase mt-1">Configurações</span>
+</a>
+</div>
+</nav>
+<script>
+        // Server clock emulation
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('pt-BR', { hour12: false });
+            const clockEl = document.getElementById('current-time');
+            if(clockEl) clockEl.textContent = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Plate masking and auto-cap
+        const plateInput = document.getElementById('plate-input');
+        if(plateInput) {
+            plateInput.addEventListener('input', (e) => {
+                let val = e.target.value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
+                // Simple plate logic (Brazilian or generic)
+                if(val.length > 3 && !val.includes('-')) {
+                    val = val.slice(0, 3) + '-' + val.slice(3);
+                }
+                e.target.value = val.slice(0, 8);
+            });
+        }
+    </script>
+    <script type="module" src="./registro.js"></script>
+</body></html>

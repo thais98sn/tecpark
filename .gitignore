@@ -1,0 +1,21 @@
+# Environment variables
+.env
+.env.local
+.env.*
+
+# Documentações internas do projeto (Solicitado)
+banco.md
+documento.md
+fase.md
+
+# Dependências do Node.js
+node_modules/
+
+# Pastas de build geradas pelo Vite
+dist/
+build/
+out/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
