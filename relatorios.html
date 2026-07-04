@@ -248,10 +248,22 @@ Sair do Sistema
 </div>
 </div>
 </div>
-<button class="mt-6 w-full bg-primary text-white font-label-mono text-label-mono py-4 px-4 hover:bg-primary-container transition-all flex items-center justify-center gap-2">
-<span class="material-symbols-outlined">download</span>
-                    EXPORTAR RELATÓRIO PDF
-                </button>
+<div class="mt-6 flex flex-col gap-2">
+    <div class="flex gap-2">
+        <div class="w-1/2">
+            <label class="block font-label-mono text-[10px] text-on-surface-variant uppercase mb-1">Data Inicial</label>
+            <input type="date" id="export-start-date" class="w-full bg-surface-container border border-outline-variant rounded px-2 py-2 text-sm focus:border-primary outline-none transition-colors">
+        </div>
+        <div class="w-1/2">
+            <label class="block font-label-mono text-[10px] text-on-surface-variant uppercase mb-1">Data Final</label>
+            <input type="date" id="export-end-date" class="w-full bg-surface-container border border-outline-variant rounded px-2 py-2 text-sm focus:border-primary outline-none transition-colors">
+        </div>
+    </div>
+    <button id="btn-export-pdf" class="w-full bg-primary text-white font-label-mono text-label-mono py-4 px-4 hover:bg-primary-container transition-all flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined">download</span>
+        EXPORTAR RELATÓRIO PDF
+    </button>
+</div>
 </div>
 </div>
 <!-- Recent Transactions List -->

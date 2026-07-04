@@ -1,4 +1,5 @@
 import { supabase } from './supabaseClient.js'
+import { printReport } from './print.js'
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Verificar sessão
@@ -232,6 +233,66 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>`;
             }
             chartContainer.innerHTML = html;
+        }
+
+        // Configurar botão de Exportar PDF
+        const btnExportPdf = document.getElementById('btn-export-pdf');
+        if (btnExportPdf) {
+            // Remove antigos listeners caso a função seja chamada novamente
+            const newBtn = btnExportPdf.cloneNode(true);
+            btnExportPdf.parentNode.replaceChild(newBtn, btnExportPdf);
+            
+            newBtn.addEventListener('click', () => {
+                const startDateInput = document.getElementById('export-start-date').value;
+                const endDateInput = document.getElementById('export-end-date').value;
+                
+                let reportRecords = allRecords;
+                let dateStr = 'Todo o período';
+                let reportTitle = 'Relatório Geral';
+
+                if (startDateInput || endDateInput) {
+                    const start = startDateInput ? new Date(startDateInput + 'T00:00:00') : new Date('1970-01-01');
+                    const end = endDateInput ? new Date(endDateInput + 'T23:59:59') : new Date('2099-12-31');
+                    
+                    reportRecords = allRecords.filter(r => {
+                        const rDate = new Date(r.data_entrada);
+                        return rDate >= start && rDate <= end;
+                    });
+                    
+                    if (startDateInput && endDateInput) {
+                        dateStr = `${start.toLocaleDateString('pt-BR')} a ${end.toLocaleDateString('pt-BR')}`;
+                        reportTitle = 'Relatório de Período';
+                    } else if (startDateInput) {
+                        dateStr = `A partir de ${start.toLocaleDateString('pt-BR')}`;
+                        reportTitle = 'Relatório de Período';
+                    } else {
+                        dateStr = `Até ${end.toLocaleDateString('pt-BR')}`;
+                        reportTitle = 'Relatório de Período';
+                    }
+                } else {
+                    // Default to today if no dates selected to keep original behavior or just export all
+                    // The user wants to choose. If they don't choose, we export everything or ask them to choose.
+                    // Let's export all if they leave it blank.
+                    dateStr = 'Todo o histórico';
+                }
+
+                let periodRevenue = 0;
+                reportRecords.forEach(r => {
+                    if (r.status === 'FINALIZADO') {
+                        periodRevenue += Number(r.valor_pago || 0);
+                    }
+                });
+
+                printReport({
+                    nome_estacionamento: config?.nome_estacionamento,
+                    cnpj: config?.cnpj,
+                    dateStr: dateStr,
+                    reportTitle: reportTitle,
+                    totalRevenue: periodRevenue,
+                    totalVehicles: reportRecords.length,
+                    records: reportRecords
+                });
+            });
         }
 
         // Renderizar Tabela Inicial

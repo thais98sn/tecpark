@@ -171,3 +171,56 @@ export function showEntrySuccessModal(plate) {
         btnPrint.addEventListener('click', () => closeAndResolve(true));
     });
 }
+
+export function showExitSuccessModal(plate, valor, forma) {
+    return new Promise((resolve) => {
+        ensureContainer();
+        
+        const modalHtml = `
+            <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+                <div class="bg-surface border border-outline-variant p-6 rounded-lg shadow-2xl max-w-sm w-full animate-scale-up technical-shadow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="material-symbols-outlined text-3xl text-primary">check_circle</span>
+                        <h3 class="font-headline-sm text-headline-sm text-primary">Saída Registrada</h3>
+                    </div>
+                    <div class="bg-surface-container-lowest p-3 rounded border border-outline-variant mb-6 space-y-2">
+                        <div class="flex justify-between">
+                            <span class="font-label-mono text-[11px] text-on-surface-variant uppercase">Placa</span>
+                            <span class="font-data-display font-bold">${plate}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-label-mono text-[11px] text-on-surface-variant uppercase">Total Pago</span>
+                            <span class="font-body-md font-bold text-primary">R$ ${Number(valor).toFixed(2).replace('.', ',')}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-label-mono text-[11px] text-on-surface-variant uppercase">Forma</span>
+                            <span class="font-body-md">${forma}</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <button id="modal-btn-print-exit" class="w-full px-6 py-3 rounded font-label-mono text-label-mono bg-surface-container-high hover:bg-surface-variant text-on-surface uppercase transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">receipt</span>
+                            Imprimir Comprovante
+                        </button>
+                        <button id="modal-btn-ok-exit" class="w-full px-6 py-3 rounded font-label-mono text-label-mono bg-primary text-on-primary hover:bg-primary-container uppercase transition-colors">
+                            Concluir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        modalContainer.innerHTML = modalHtml;
+
+        const btnOk = document.getElementById('modal-btn-ok-exit');
+        const btnPrint = document.getElementById('modal-btn-print-exit');
+        
+        const closeAndResolve = (shouldPrint) => {
+            modalContainer.innerHTML = '';
+            resolve(shouldPrint);
+        };
+
+        btnOk.addEventListener('click', () => closeAndResolve(false));
+        btnPrint.addEventListener('click', () => closeAndResolve(true));
+    });
+}

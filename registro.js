@@ -1,6 +1,6 @@
 import { supabase } from './supabaseClient.js'
-import { showModal, showCheckoutModal, showEntrySuccessModal } from './modal.js'
-import { printTicket } from './print.js'
+import { showModal, showCheckoutModal, showEntrySuccessModal, showExitSuccessModal } from './modal.js'
+import { printTicket, printReceipt } from './print.js'
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Verificar sessão
@@ -93,13 +93,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadActiveVehicles();
 
     btnEntrada.addEventListener('click', async () => {
-        const plate = plateInput.value.replace('-', '');
+        const plate = plateInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         if (plate.length < 7) {
             await showModal("Ops!", "Placa inválida. Preencha corretamente.", true);
             return;
         }
         
         btnEntrada.disabled = true;
+
+        // Verificar se o veículo já está estacionado
+        const { data: existingRecords, error: checkError } = await supabase
+            .from('registros_estacionamento')
+            .select('id')
+            .ilike('placa', plate)
+            .eq('status', 'ESTACIONADO')
+            .limit(1);
+
+        if (checkError) {
+            await showModal("Erro", "Falha ao verificar veículo: " + checkError.message, true);
+            btnEntrada.disabled = false;
+            return;
+        }
+
+        if (existingRecords && existingRecords.length > 0) {
+            await showModal("Atenção", "Este veículo já consta como ESTACIONADO no pátio. Registre a saída dele antes de tentar uma nova entrada.", true);
+            btnEntrada.disabled = false;
+            return;
+        }
+
         const { error } = await supabase
             .from('registros_estacionamento')
             .insert([{ placa: plate, status: 'ESTACIONADO' }]);
@@ -131,7 +152,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     btnSaida.addEventListener('click', async () => {
-        const plate = plateInput.value.replace('-', '');
+        const plate = plateInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         if (plate.length < 7) {
             await showModal("Ops!", "Placa inválida. Preencha corretamente.", true);
             return;
@@ -140,13 +161,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         btnSaida.disabled = true;
 
         // Buscar veículo estacionado
-        const { data: record, error } = await supabase
+        const { data: records, error } = await supabase
             .from('registros_estacionamento')
             .select('*')
-            .eq('placa', plate)
+            .ilike('placa', plate)
             .eq('status', 'ESTACIONADO')
-            .single();
+            .order('data_entrada', { ascending: false })
+            .limit(1);
             
+        const record = records && records.length > 0 ? records[0] : null;
         if (error || !record) {
             await showModal("Não encontrado", "Veículo não encontrado ou não está estacionado.", true);
             btnSaida.disabled = false;
@@ -232,7 +255,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (updError) {
             await showModal("Erro", "Erro ao registrar saída: " + updError.message, true);
         } else {
-            await showModal("Sucesso", `Saída registrada!\nPlaca: ${plate}\nPagamento: ${selectedMethod}`);
+            const shouldPrint = await showExitSuccessModal(plate, valorPagar, selectedMethod);
+            
+            if (shouldPrint) {
+                const { data: config } = await supabase.from('configuracoes_gerais').select('*').eq('id', 1).single();
+                
+                printReceipt({
+                    nome_estacionamento: config?.nome_estacionamento,
+                    endereco: config?.endereco,
+                    cnpj: config?.cnpj,
+                    placa: plate,
+                    hora_entrada: entrada.toLocaleString('pt-BR'),
+                    hora_saida: saida.toLocaleString('pt-BR'),
+                    tempo_permanencia: timeStr,
+                    valor_pago: valorPagar,
+                    forma_pagamento: selectedMethod
+                });
+            }
+            
             plateInput.value = '';
             loadActiveVehicles();
         }
