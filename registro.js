@@ -1,5 +1,6 @@
 import { supabase } from './supabaseClient.js'
-import { showModal, showCheckoutModal } from './modal.js'
+import { showModal, showCheckoutModal, showEntrySuccessModal } from './modal.js'
+import { printTicket } from './print.js'
 
 document.addEventListener('DOMContentLoaded', async () => {
     // Verificar sessão
@@ -40,6 +41,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const { data: config } = await supabase.from('configuracoes_gerais').select('*').eq('id', 1).single();
+        if (config && config.nome_estacionamento) {
+            const headerTitle = document.querySelector('header h1');
+            if (headerTitle) headerTitle.textContent = config.nome_estacionamento;
+        }
+        
         const totalVagas = config ? config.total_vagas : 100;
         const capacityPercentage = document.getElementById('capacity-percentage');
         if(capacityPercentage) {
@@ -103,7 +109,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (error) {
             await showModal("Erro", "Erro ao registrar entrada: " + error.message, true);
         } else {
-            await showModal("Sucesso", "Entrada do veículo " + plate + " registrada com sucesso!");
+            const shouldPrint = await showEntrySuccessModal(plate);
+            
+            if (shouldPrint) {
+                const { data: config } = await supabase.from('configuracoes_gerais').select('*').eq('id', 1).single();
+                const now = new Date();
+                const hora_entrada = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR');
+                
+                printTicket({
+                    nome_estacionamento: config?.nome_estacionamento,
+                    endereco: config?.endereco,
+                    cnpj: config?.cnpj,
+                    placa: plate,
+                    hora_entrada: hora_entrada
+                });
+            }
+            
             plateInput.value = '';
             loadActiveVehicles();
         }
@@ -148,11 +169,30 @@ document.addEventListener('DOMContentLoaded', async () => {
             
         let valorPagar = 0;
         if (configs && configs.length > 0) {
-            const applicableConfigs = configs.filter(c => diffMins >= c.periodo_minutos);
-            if(applicableConfigs.length > 0) {
-                valorPagar = applicableConfigs[applicableConfigs.length - 1].valor;
-            } else {
-                valorPagar = configs[0].valor; 
+            const baseConfigs = configs.filter(c => c.tipo_regra !== 'ADICIONAL');
+            const additionalConfigs = configs.filter(c => c.tipo_regra === 'ADICIONAL');
+            
+            let appliedBaseMins = 0;
+            // 1. Achar a maior regra base aplicável
+            if (baseConfigs.length > 0) {
+                const applicableBase = baseConfigs.filter(c => diffMins >= c.periodo_minutos);
+                if(applicableBase.length > 0) {
+                    const bestBase = applicableBase[applicableBase.length - 1];
+                    valorPagar = bestBase.valor;
+                    appliedBaseMins = bestBase.periodo_minutos;
+                } else {
+                    // Se não bateu nem o mínimo, cobra a menor base
+                    valorPagar = baseConfigs[0].valor;
+                    appliedBaseMins = baseConfigs[0].periodo_minutos;
+                }
+            }
+
+            // 2. Calcular extra se houver
+            if (diffMins > appliedBaseMins && additionalConfigs.length > 0) {
+                const extraMins = diffMins - appliedBaseMins;
+                const extraRule = additionalConfigs[0]; // Pega a primeira regra extra
+                const blocks = Math.ceil(extraMins / extraRule.periodo_minutos);
+                valorPagar += blocks * extraRule.valor;
             }
         }
 

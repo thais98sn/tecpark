@@ -143,6 +143,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function loadReports() {
         // Obter capacidade
         const { data: config } = await supabase.from('configuracoes_gerais').select('*').eq('id', 1).single();
+        if (config && config.nome_estacionamento) {
+            const headerTitle = document.querySelector('header h1');
+            if (headerTitle) headerTitle.textContent = config.nome_estacionamento;
+        }
         const totalVagas = config ? config.total_vagas : 100;
 
         const { data: records, error } = await supabase

@@ -129,3 +129,45 @@ export function showCheckoutModal(plate, duration, totalValue, paymentMethods) {
         });
     });
 }
+
+export function showEntrySuccessModal(plate) {
+    return new Promise((resolve) => {
+        ensureContainer();
+        
+        const modalHtml = `
+            <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+                <div class="bg-surface border border-outline-variant p-6 rounded-lg shadow-2xl max-w-sm w-full animate-scale-up technical-shadow">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="material-symbols-outlined text-3xl text-primary">check_circle</span>
+                        <h3 class="font-headline-sm text-headline-sm text-primary">Sucesso</h3>
+                    </div>
+                    <p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                        Entrada do veículo <span class="font-bold">${plate}</span> registrada com sucesso!
+                    </p>
+                    <div class="flex flex-col gap-3">
+                        <button id="modal-btn-print" class="w-full px-6 py-3 rounded font-label-mono text-label-mono bg-surface-container-high hover:bg-surface-variant text-on-surface uppercase transition-colors flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-sm">print</span>
+                            Imprimir Ticket
+                        </button>
+                        <button id="modal-btn-ok" class="w-full px-6 py-3 rounded font-label-mono text-label-mono bg-primary text-on-primary hover:bg-primary-container uppercase transition-colors">
+                            Concluir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        modalContainer.innerHTML = modalHtml;
+
+        const btnOk = document.getElementById('modal-btn-ok');
+        const btnPrint = document.getElementById('modal-btn-print');
+        
+        const closeAndResolve = (shouldPrint) => {
+            modalContainer.innerHTML = '';
+            resolve(shouldPrint);
+        };
+
+        btnOk.addEventListener('click', () => closeAndResolve(false));
+        btnPrint.addEventListener('click', () => closeAndResolve(true));
+    });
+}

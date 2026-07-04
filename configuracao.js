@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const form = document.getElementById('price-form');
     const inputDesc = document.getElementById('input-desc');
+    const inputTipo = document.getElementById('input-tipo');
     const inputMins = document.getElementById('input-mins');
     const inputValor = document.getElementById('input-valor');
     const pricingList = document.getElementById('pricing-list');
@@ -29,11 +30,48 @@ document.addEventListener('DOMContentLoaded', async () => {
     const inputVagas = document.getElementById('input-vagas');
     const btnSalvarVagas = document.getElementById('btn-salvar-vagas');
 
-    async function loadVagas() {
+    const formParkingData = document.getElementById('parking-data-form');
+    const inputNomeEstacionamento = document.getElementById('input-nome-estacionamento');
+    const inputCnpj = document.getElementById('input-cnpj');
+    const inputEndereco = document.getElementById('input-endereco');
+
+    async function loadGerais() {
         const { data, error } = await supabase.from('configuracoes_gerais').select('*').eq('id', 1).single();
         if (data) {
-            inputVagas.value = data.total_vagas;
+            inputVagas.value = data.total_vagas || 100;
+            if(inputNomeEstacionamento) inputNomeEstacionamento.value = data.nome_estacionamento || '';
+            if(inputCnpj) inputCnpj.value = data.cnpj || '';
+            if(inputEndereco) inputEndereco.value = data.endereco || '';
+            
+            // Atualizar cabeçalho se houver nome
+            if (data.nome_estacionamento) {
+                const headerTitle = document.querySelector('header h1');
+                if (headerTitle) headerTitle.textContent = data.nome_estacionamento;
+            }
         }
+    }
+
+    if (formParkingData) {
+        formParkingData.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btnSalvarDados = document.getElementById('btn-salvar-dados');
+            btnSalvarDados.disabled = true;
+            
+            const { error } = await supabase.from('configuracoes_gerais').update({ 
+                nome_estacionamento: inputNomeEstacionamento.value,
+                cnpj: inputCnpj.value,
+                endereco: inputEndereco.value
+            }).eq('id', 1);
+            
+            btnSalvarDados.disabled = false;
+            
+            if (error) {
+                await showModal("Erro", "Erro ao salvar dados: " + error.message, true);
+            } else {
+                await showModal("Sucesso", "Dados do estacionamento atualizados com sucesso!");
+                loadGerais(); // recarrega para atualizar o header
+            }
+        });
     }
 
     btnSalvarVagas.addEventListener('click', async () => {
@@ -74,7 +112,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="flex items-center justify-between p-stack-sm bg-surface-container rounded border border-transparent hover:border-outline-variant transition-all">
                 <div class="flex items-center gap-3">
                     <span class="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded">${rule.periodo_minutos} MIN</span>
-                    <span class="font-body-md text-body-md">${rule.descricao}</span>
+                    <div class="flex flex-col">
+                        <span class="font-body-md text-body-md">${rule.descricao}</span>
+                        <span class="text-xs text-on-surface-variant uppercase">${rule.tipo_regra === 'ADICIONAL' ? 'HORA EXTRA' : 'BASE'}</span>
+                    </div>
                 </div>
                 <div class="flex items-center gap-4">
                     <span class="font-label-mono text-label-mono text-secondary">R$ ${Number(rule.valor).toFixed(2).replace('.', ',')}</span>
@@ -102,10 +143,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const desc = inputDesc.value;
+        const tipo = inputTipo.value;
         const mins = parseInt(inputMins.value);
         const valor = parseFloat(inputValor.value);
 
-        if (!desc || isNaN(mins) || isNaN(valor)) {
+        if (!desc || isNaN(mins) || isNaN(valor) || !tipo) {
             await showModal("Atenção", "Preencha os campos da regra corretamente.", true);
             return;
         }
@@ -113,7 +155,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         btnSalvar.disabled = true;
         const { error } = await supabase
             .from('configuracoes_preco')
-            .insert([{ descricao: desc, periodo_minutos: mins, valor: valor }]);
+            .insert([{ descricao: desc, periodo_minutos: mins, valor: valor, tipo_regra: tipo }]);
         
         btnSalvar.disabled = false;
 
@@ -184,6 +226,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     loadConfig();
-    loadVagas();
+    loadGerais();
     loadPayments();
 });

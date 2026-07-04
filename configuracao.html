@@ -164,6 +164,35 @@ Sair do Sistema
 <!-- Price Management Card -->
 <div class="md:col-span-8 space-y-stack-md">
 
+<!-- Parking Data Settings -->
+<section class="bg-white border border-outline-variant p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
+<div class="flex items-center gap-2 mb-stack-md border-b border-outline-variant pb-stack-sm">
+<span class="material-symbols-outlined text-secondary">store</span>
+<h3 class="font-headline-sm text-headline-sm">Dados do Estacionamento</h3>
+</div>
+<form id="parking-data-form" class="space-y-stack-md">
+    <div class="grid grid-cols-1 gap-stack-md">
+        <div>
+            <label class="block font-label-mono text-label-mono text-on-surface-variant mb-1">NOME DO ESTACIONAMENTO</label>
+            <input id="input-nome-estacionamento" class="w-full px-4 py-3 bg-[#F1F5F9] border-2 border-transparent focus:border-secondary rounded font-body-md" type="text" placeholder="Ex: TECPARK Centro">
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md">
+            <div>
+                <label class="block font-label-mono text-label-mono text-on-surface-variant mb-1">CNPJ</label>
+                <input id="input-cnpj" class="w-full px-4 py-3 bg-[#F1F5F9] border-2 border-transparent focus:border-secondary rounded font-body-md" type="text" placeholder="00.000.000/0001-00">
+            </div>
+            <div>
+                <label class="block font-label-mono text-label-mono text-on-surface-variant mb-1">ENDEREÇO</label>
+                <input id="input-endereco" class="w-full px-4 py-3 bg-[#F1F5F9] border-2 border-transparent focus:border-secondary rounded font-body-md" type="text" placeholder="Av. Principal, 1000">
+            </div>
+        </div>
+        <div class="flex justify-end mt-4">
+            <button type="submit" id="btn-salvar-dados" class="bg-primary text-white font-bold py-3 px-6 rounded hover:bg-primary-container transition-all">SALVAR DADOS</button>
+        </div>
+    </div>
+</form>
+</section>
+
 <!-- Capacity Settings -->
 <section class="bg-white border border-outline-variant p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
 <div class="flex items-center gap-2 mb-stack-md border-b border-outline-variant pb-stack-sm">
@@ -209,6 +238,18 @@ ADD
 <h3 class="font-headline-sm text-headline-sm">Nova Regra de Preço</h3>
 </div>
 <form id="price-form" class="space-y-stack-md">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md items-center">
+<div>
+<label class="block font-label-mono text-label-mono text-on-surface-variant mb-1">TIPO DE REGRA</label>
+<p class="text-xs text-on-surface-variant mb-2">Se a regra é Base (ex: 1ª Hora) ou Adicional (ex: hora extra)</p>
+</div>
+<div class="relative">
+<select id="input-tipo" required class="w-full px-4 py-3 bg-[#F1F5F9] border-2 border-transparent focus:border-secondary focus:ring-0 rounded font-body-md transition-colors">
+<option value="BASE">Regra Base</option>
+<option value="ADICIONAL">Regra Adicional (Hora Extra)</option>
+</select>
+</div>
+</div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md items-center">
 <div>
 <label class="block font-label-mono text-label-mono text-on-surface-variant mb-1">DESCRIÇÃO DA REGRA</label>
