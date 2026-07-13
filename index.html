@@ -121,6 +121,13 @@
       min-height: max(884px, 100dvh);
     }
   </style>
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
   </head>
 <body class="font-body-md text-on-background min-h-screen flex flex-col md:flex-row">
 <!-- Hero Section / Brand Visual (Desktop Only) -->

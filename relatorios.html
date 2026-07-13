@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html class="light" lang="pt-br"><head>
+<html lang="pt-br"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -124,28 +124,40 @@
         top: env(safe-area-inset-top) !important;
     }
 </style>
+<script>
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>
   </head>
-<body class="bg-background text-on-surface mb-24 min-h-screen flex flex-col">
+<body class="bg-background dark:bg-slate-900 text-on-surface dark:text-slate-200 mb-24 min-h-screen flex flex-col">
 <!-- TopAppBar -->
-<header class="w-full top-0 sticky bg-surface dark:bg-primary-container border-b border-outline-variant dark:border-outline z-50 transition-all duration-150">
+<header class="w-full top-0 sticky bg-surface dark:bg-primary-container border-b border-outline-variant dark:border-slate-700 dark:border-outline z-50 transition-all duration-150">
 <div class="flex items-center justify-between px-container-padding-mobile md:px-container-padding-desktop h-16 w-full">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary dark:text-primary-fixed" style="font-variation-settings: 'FILL' 1; font-size: 28px;">local_parking</span>
 <h1 class="font-display-lg text-display-lg tracking-tighter text-primary dark:text-primary-fixed">TECPARK</h1>
 </div>
 <div class="hidden md:flex items-center gap-stack-lg">
-<a href="/registro.html" class="font-label-mono text-label-mono text-on-surface-variant dark:text-surface-variant uppercase hover:bg-surface-container dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Registro</a>
+<a href="/registro.html" class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 dark:text-surface-variant uppercase hover:bg-surface-container dark:bg-slate-700 dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Registro</a>
 <a href="/relatorios.html" class="font-label-mono text-label-mono text-primary dark:text-secondary-fixed-dim uppercase">Relatórios</a>
-<a href="/configuracao.html" class="font-label-mono text-label-mono text-on-surface-variant dark:text-surface-variant uppercase hover:bg-surface-container dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Configurações</a>
+<a href="/configuracao.html" class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 dark:text-surface-variant uppercase hover:bg-surface-container dark:bg-slate-700 dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Configurações</a>
 </div>
-<div class="relative flex items-center gap-2 group cursor-pointer p-2">
-<span class="font-label-mono text-[10px] text-on-surface-variant hidden sm:block user-email-display uppercase">Usuário</span>
-<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
-<div class="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-primary-container border border-outline-variant dark:border-outline rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-<button class="w-full text-left px-4 py-3 font-label-mono text-label-mono text-error hover:bg-surface-container dark:hover:bg-inverse-surface flex items-center gap-2 btn-logout transition-colors">
+<div class="relative flex items-center gap-2 group p-2">
+<button class="btn-theme-toggle p-2 text-on-surface-variant dark:text-slate-400 hover:text-primary transition-colors flex items-center justify-center rounded-full hover:bg-surface-container dark:bg-slate-700 dark:hover:bg-inverse-surface" title="Alternar Tema">
+    <span class="material-symbols-outlined theme-icon" style="font-size: 20px;">dark_mode</span>
+</button>
+<div class="flex items-center gap-2 cursor-pointer" onclick="this.querySelector('.absolute').classList.toggle('opacity-0'); this.querySelector('.absolute').classList.toggle('invisible');">
+<span class="font-label-mono text-[10px] text-on-surface-variant dark:text-slate-400 hidden sm:block user-email-display uppercase">Usuário</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">account_circle</span>
+<div class="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-slate-800 dark:bg-primary-container border border-outline-variant dark:border-slate-700 dark:border-outline rounded shadow-lg opacity-0 invisible transition-all duration-200 z-50">
+<button class="w-full text-left px-4 py-3 font-label-mono text-label-mono text-error hover:bg-surface-container dark:bg-slate-700 dark:hover:bg-inverse-surface flex items-center gap-2 btn-logout transition-colors">
 <span class="material-symbols-outlined text-sm">logout</span>
 Sair do Sistema
 </button>
+</div>
 </div>
 </div>
 </div>
@@ -157,7 +169,7 @@ Sair do Sistema
 <p class="font-label-mono text-label-mono text-secondary uppercase tracking-widest">Relatórios Diários</p>
 <h2 class="font-headline-md text-headline-md text-on-surface">Visão Geral da Operação</h2>
 </div>
-<div class="flex items-center gap-2 bg-white border border-outline-variant p-2 rounded-lg">
+<div class="flex items-center gap-2 bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-2 rounded-lg">
 <span class="material-symbols-outlined text-outline">calendar_today</span>
 <span id="current-date" class="font-body-md text-body-md font-semibold">-- --- ----</span>
 </div>
@@ -165,9 +177,9 @@ Sair do Sistema
 <!-- Summary Cards Bento Grid -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
 <!-- Faturamento -->
-<div class="bg-white border border-outline-variant p-stack-md flex flex-col justify-between technical-shadow">
+<div class="bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-stack-md flex flex-col justify-between technical-shadow">
 <div class="flex items-center justify-between">
-<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Faturamento Total</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 uppercase">Faturamento Total</span>
 <span class="material-symbols-outlined text-secondary">payments</span>
 </div>
 <div class="mt-4">
@@ -179,28 +191,28 @@ Sair do Sistema
 </div>
 </div>
 <!-- Veículos -->
-<div class="bg-white border border-outline-variant p-stack-md flex flex-col justify-between technical-shadow">
+<div class="bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-stack-md flex flex-col justify-between technical-shadow">
 <div class="flex items-center justify-between">
-<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Veículos Atendidos</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 uppercase">Veículos Atendidos</span>
 <span class="material-symbols-outlined text-secondary">directions_car</span>
 </div>
 <div class="mt-4">
 <p id="total-vehicles" class="font-display-lg text-display-lg text-primary tracking-tight">0</p>
-<p class="font-body-md text-body-md text-on-surface-variant mt-1">Registros totais</p>
+<p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-400 mt-1">Registros totais</p>
 </div>
 </div>
 <!-- Ocupação -->
-<div class="bg-white border border-outline-variant p-stack-md flex flex-col justify-between technical-shadow">
+<div class="bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-stack-md flex flex-col justify-between technical-shadow">
 <div class="flex items-center justify-between">
-<span class="font-label-mono text-label-mono text-on-surface-variant uppercase">Ocupação Atual</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 uppercase">Ocupação Atual</span>
 <span class="material-symbols-outlined text-secondary">analytics</span>
 </div>
 <div class="mt-4">
 <div class="flex items-end gap-2">
 <p id="current-occupancy" class="font-display-lg text-display-lg text-primary tracking-tight">0%</p>
-<p id="total-vagas-label" class="font-label-mono text-label-mono text-on-surface-variant mb-2">/ 100 Vagas</p>
+<p id="total-vagas-label" class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 mb-2">/ 100 Vagas</p>
 </div>
-<div class="w-full bg-surface-container h-2 mt-2">
+<div class="w-full bg-surface-container dark:bg-slate-700 h-2 mt-2">
 <div id="occupancy-bar" class="bg-secondary h-full" style="width: 0%"></div>
 </div>
 </div>
@@ -209,7 +221,7 @@ Sair do Sistema
 <!-- Flow Chart & Transaction Split -->
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
 <!-- Chart Section -->
-<div class="lg:col-span-2 bg-white border border-outline-variant p-stack-md technical-shadow">
+<div class="lg:col-span-2 bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-stack-md technical-shadow">
 <div class="flex items-center justify-between mb-8">
 <h3 class="font-headline-sm text-headline-sm">Fluxo de Entrada por Hora</h3>
 <div class="flex gap-2">
@@ -220,13 +232,13 @@ Sair do Sistema
 </div>
 </div>
 <div class="w-full overflow-x-auto pb-2">
-<div id="chart-container" class="h-64 flex items-end justify-between gap-1 sm:gap-2 border-b border-outline-variant pb-1 min-w-[500px] sm:min-w-0">
+<div id="chart-container" class="h-64 flex items-end justify-between gap-1 sm:gap-2 border-b border-outline-variant dark:border-slate-700 pb-1 min-w-[500px] sm:min-w-0">
 <!-- Populado pelo JS -->
 </div>
 </div>
 </div>
 <!-- Transaction Highlights -->
-<div class="bg-white border border-outline-variant p-stack-md technical-shadow flex flex-col">
+<div class="bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-stack-md technical-shadow flex flex-col">
 <h3 class="font-headline-sm text-headline-sm mb-4">Metas de Turno</h3>
 <div class="space-y-4 flex-1">
 <div class="space-y-2">
@@ -234,7 +246,7 @@ Sair do Sistema
 <span>Meta Faturamento</span>
 <span>75%</span>
 </div>
-<div class="w-full bg-surface-container h-1.5">
+<div class="w-full bg-surface-container dark:bg-slate-700 h-1.5">
 <div class="bg-primary h-full" style="width: 75%"></div>
 </div>
 </div>
@@ -243,7 +255,7 @@ Sair do Sistema
 <span>Ticket Médio</span>
 <span>R$ 12,50</span>
 </div>
-<div class="w-full bg-surface-container h-1.5">
+<div class="w-full bg-surface-container dark:bg-slate-700 h-1.5">
 <div class="bg-primary h-full" style="width: 45%"></div>
 </div>
 </div>
@@ -251,34 +263,36 @@ Sair do Sistema
 <div class="mt-6 flex flex-col gap-2">
     <div class="flex gap-2">
         <div class="w-1/2">
-            <label class="block font-label-mono text-[10px] text-on-surface-variant uppercase mb-1">Data Inicial</label>
-            <input type="date" id="export-start-date" class="w-full bg-surface-container border border-outline-variant rounded px-2 py-2 text-sm focus:border-primary outline-none transition-colors">
+            <label class="block font-label-mono text-[10px] text-on-surface-variant dark:text-slate-400 uppercase mb-1">Data Inicial</label>
+            <input type="date" id="export-start-date" class="w-full bg-surface-container dark:bg-slate-700 border border-outline-variant dark:border-slate-700 rounded px-2 py-2 text-sm focus:border-primary outline-none transition-colors">
         </div>
         <div class="w-1/2">
-            <label class="block font-label-mono text-[10px] text-on-surface-variant uppercase mb-1">Data Final</label>
-            <input type="date" id="export-end-date" class="w-full bg-surface-container border border-outline-variant rounded px-2 py-2 text-sm focus:border-primary outline-none transition-colors">
+            <label class="block font-label-mono text-[10px] text-on-surface-variant dark:text-slate-400 uppercase mb-1">Data Final</label>
+            <input type="date" id="export-end-date" class="w-full bg-surface-container dark:bg-slate-700 border border-outline-variant dark:border-slate-700 rounded px-2 py-2 text-sm focus:border-primary outline-none transition-colors">
         </div>
     </div>
-    <button id="btn-export-pdf" class="w-full bg-primary text-white font-label-mono text-label-mono py-4 px-4 hover:bg-primary-container transition-all flex items-center justify-center gap-2">
-        <span class="material-symbols-outlined">download</span>
-        EXPORTAR RELATÓRIO PDF
-    </button>
+    <div class="flex gap-2">
+        <button id="btn-export-pdf" class="w-full bg-primary text-white font-label-mono text-label-mono py-4 px-4 hover:bg-primary-container transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined">picture_as_pdf</span>
+            EXPORTAR PDF
+        </button>
+    </div>
 </div>
 </div>
 </div>
 <!-- Recent Transactions List -->
-<section class="bg-white border border-outline-variant technical-shadow overflow-hidden">
-<div class="p-stack-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low flex-wrap gap-4">
+<section class="bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 technical-shadow overflow-hidden">
+<div class="p-stack-md border-b border-outline-variant dark:border-slate-700 flex justify-between items-center bg-surface-container dark:bg-slate-700-low flex-wrap gap-4">
 <h3 class="font-headline-sm text-headline-sm">Transações Recentes</h3>
-<div class="flex items-center gap-2 bg-white border border-outline-variant rounded px-3 py-2 technical-shadow-sm">
-<span class="material-symbols-outlined text-on-surface-variant text-sm">search</span>
+<div class="flex items-center gap-2 bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 rounded px-3 py-2 technical-shadow-sm">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400 text-sm">search</span>
 <input type="text" id="search-plate" class="font-label-mono text-label-mono border-none outline-none focus:ring-0 bg-transparent w-full sm:w-48 uppercase" placeholder="BUSCAR PLACA..." maxlength="8">
 </div>
 </div>
 <div class="overflow-x-auto">
 <table class="w-full text-left border-collapse">
 <thead>
-<tr class="border-b border-outline-variant bg-white font-label-mono text-[11px] uppercase text-on-surface-variant">
+<tr class="border-b border-outline-variant dark:border-slate-700 bg-white dark:bg-slate-800 font-label-mono text-[11px] uppercase text-on-surface-variant dark:text-slate-400">
 <th class="p-4">Placa</th>
 <th class="p-4">Entrada</th>
 <th class="p-4">Permanência</th>
@@ -292,19 +306,19 @@ Sair do Sistema
 </tbody>
 </table>
 </div>
-<div class="p-4 bg-surface-container-lowest flex justify-between items-center border-t border-outline-variant">
-<span id="pagination-info" class="font-label-mono text-[11px] text-on-surface-variant uppercase">Mostrando 0-0 de 0</span>
+<div class="p-4 bg-surface-container dark:bg-slate-700-lowest flex justify-between items-center border-t border-outline-variant dark:border-slate-700">
+<span id="pagination-info" class="font-label-mono text-[11px] text-on-surface-variant dark:text-slate-400 uppercase">Mostrando 0-0 de 0</span>
 <div class="flex items-center gap-2">
-<button id="btn-prev-page" class="p-2 rounded bg-white border border-outline-variant hover:bg-surface-container transition-colors disabled:opacity-50 flex items-center justify-center"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
-<button id="btn-next-page" class="p-2 rounded bg-white border border-outline-variant hover:bg-surface-container transition-colors disabled:opacity-50 flex items-center justify-center"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
+<button id="btn-prev-page" class="p-2 rounded bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 hover:bg-surface-container dark:bg-slate-700 transition-colors disabled:opacity-50 flex items-center justify-center"><span class="material-symbols-outlined text-sm">chevron_left</span></button>
+<button id="btn-next-page" class="p-2 rounded bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 hover:bg-surface-container dark:bg-slate-700 transition-colors disabled:opacity-50 flex items-center justify-center"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
 </div>
 </div>
 </section>
 </main>
 <!-- BottomNavBar -->
-<nav class="fixed bottom-0 w-full z-50 h-20 bg-surface dark:bg-primary-container border-t border-outline-variant dark:border-outline md:hidden">
+<nav class="fixed bottom-0 w-full z-50 h-20 bg-surface dark:bg-primary-container border-t border-outline-variant dark:border-slate-700 dark:border-outline md:hidden">
 <div class="flex justify-around items-center w-full px-4 h-full">
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2" href="/registro.html">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-slate-400 dark:text-surface-variant hover:bg-surface-container dark:bg-slate-700-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2" href="/registro.html">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">app_registration</span>
 <span class="font-label-mono text-[10px] uppercase mt-1">Registro</span>
 </a>
@@ -312,7 +326,7 @@ Sair do Sistema
 <span class="material-symbols-outlined">analytics</span>
 <span class="font-label-mono text-[10px] uppercase mt-1">Relatórios</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2" href="/configuracao.html">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-slate-400 dark:text-surface-variant hover:bg-surface-container dark:bg-slate-700-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2" href="/configuracao.html">
 <span class="material-symbols-outlined">settings</span>
 <span class="font-label-mono text-[10px] uppercase mt-1">Configurações</span>
 </a>
@@ -330,6 +344,36 @@ Sair do Sistema
                     bar.style.height = targetHeight;
                 }, 300);
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.querySelector('.btn-theme-toggle');
+            const themeIcon = document.querySelector('.theme-icon');
+            
+            function updateIcon(isDark) {
+                if (themeIcon) {
+                    themeIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
+                }
+            }
+            
+            const isDark = document.documentElement.classList.contains('dark');
+            updateIcon(isDark);
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    const isCurrentlyDark = document.documentElement.classList.contains('dark');
+                    if (isCurrentlyDark) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('theme', 'light');
+                        updateIcon(false);
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('theme', 'dark');
+                        updateIcon(true);
+                    }
+                });
+            }
         });
     </script>
     <script type="module" src="./relatorios.js"></script>

@@ -140,12 +140,19 @@
             top: env(safe-area-inset-top) !important;
         }
     </style>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
 
-<body class="bg-background text-on-surface mb-24 min-h-screen flex flex-col">
+<body class="bg-background dark:bg-slate-900 text-on-surface dark:text-slate-200 mb-24 min-h-screen flex flex-col">
     <!-- TopAppBar -->
     <header
-        class="w-full top-0 sticky bg-surface dark:bg-primary-container border-b border-outline-variant dark:border-outline z-50 transition-all duration-150">
+        class="w-full top-0 sticky bg-surface dark:bg-primary-container border-b border-outline-variant dark:border-slate-700 dark:border-outline z-50 transition-all duration-150">
         <div
             class="flex items-center justify-between px-container-padding-mobile md:px-container-padding-desktop h-16 w-full">
             <div class="flex items-center gap-2">
@@ -156,25 +163,30 @@
             </div>
             <div class="hidden md:flex items-center gap-stack-lg">
                 <a href="/registro.html"
-                    class="font-label-mono text-label-mono text-on-surface-variant dark:text-surface-variant uppercase hover:bg-surface-container dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Registro</a>
+                    class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 dark:text-surface-variant uppercase hover:bg-surface-container dark:bg-slate-800 dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Registro</a>
                 <a href="/relatorios.html"
-                    class="font-label-mono text-label-mono text-on-surface-variant dark:text-surface-variant uppercase hover:bg-surface-container dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Relatórios</a>
+                    class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 dark:text-surface-variant uppercase hover:bg-surface-container dark:bg-slate-800 dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Relatórios</a>
                 <a href="/configuracao.html"
                     class="font-label-mono text-label-mono text-primary dark:text-secondary-fixed-dim uppercase">Configurações</a>
             </div>
-            <div class="relative flex items-center gap-2 group cursor-pointer p-2">
+            <div class="relative flex items-center gap-2 group p-2">
+                <button class="btn-theme-toggle p-2 text-on-surface-variant dark:text-slate-400 hover:text-primary transition-colors flex items-center justify-center rounded-full hover:bg-surface-container dark:bg-slate-800 dark:hover:bg-inverse-surface" title="Alternar Tema">
+                    <span class="material-symbols-outlined theme-icon" style="font-size: 20px;">dark_mode</span>
+                </button>
+            <div class="flex items-center gap-2 cursor-pointer" onclick="this.querySelector('.absolute').classList.toggle('opacity-0'); this.querySelector('.absolute').classList.toggle('invisible');">
                 <span
-                    class="font-label-mono text-[10px] text-on-surface-variant hidden sm:block user-email-display uppercase">Usuário</span>
-                <span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
+                    class="font-label-mono text-[10px] text-on-surface-variant dark:text-slate-400 hidden sm:block user-email-display uppercase">Usuário</span>
+                <span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">account_circle</span>
                 <div
-                    class="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-primary-container border border-outline-variant dark:border-outline rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    class="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-slate-800 dark:bg-primary-container border border-outline-variant dark:border-slate-700 dark:border-outline rounded shadow-lg opacity-0 invisible transition-all duration-200 z-50">
                     <button
-                        class="w-full text-left px-4 py-3 font-label-mono text-label-mono text-error hover:bg-surface-container dark:hover:bg-inverse-surface flex items-center gap-2 btn-logout transition-colors">
+                        class="w-full text-left px-4 py-3 font-label-mono text-label-mono text-error hover:bg-surface-container dark:bg-slate-800 dark:hover:bg-inverse-surface flex items-center gap-2 btn-logout transition-colors">
                         <span class="material-symbols-outlined text-sm">logout</span>
                         Sair do Sistema
                     </button>
                 </div>
             </div>
+        </div>
         </div>
     </header>
     <main
@@ -182,24 +194,25 @@
         <!-- Page Title -->
         <div class="mb-stack-lg">
             <h2 class="font-headline-md text-headline-md text-primary mb-1">Configurações de Tarifas</h2>
-            <p class="font-body-md text-body-md text-on-surface-variant">Gerencie os valores de cobrança e regras de
+            <p class="font-body-md text-body-md text-on-surface-variant dark:text-slate-400">Gerencie os valores de cobrança e regras de
                 tolerância do sistema.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-stack-md">
             <!-- Price Management Card -->
             <div class="md:col-span-8 space-y-stack-md">
 
+
                 <!-- Parking Data Settings -->
                 <section
-                    class="bg-white border border-outline-variant p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
-                    <div class="flex items-center gap-2 mb-stack-md border-b border-outline-variant pb-stack-sm">
+                    class="bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
+                    <div class="flex items-center gap-2 mb-stack-md border-b border-outline-variant dark:border-slate-700 pb-stack-sm">
                         <span class="material-symbols-outlined text-secondary">store</span>
                         <h3 class="font-headline-sm text-headline-sm">Dados do Estacionamento</h3>
                     </div>
                     <form id="parking-data-form" class="space-y-stack-md">
                         <div class="grid grid-cols-1 gap-stack-md">
                             <div>
-                                <label class="block font-label-mono text-label-mono text-on-surface-variant mb-1">NOME
+                                <label class="block font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 mb-1">NOME
                                     DO ESTACIONAMENTO</label>
                                 <input id="input-nome-estacionamento"
                                     class="w-full px-4 py-3 bg-[#F1F5F9] border-2 border-transparent focus:border-secondary rounded font-body-md"
@@ -208,14 +221,14 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md">
                                 <div>
                                     <label
-                                        class="block font-label-mono text-label-mono text-on-surface-variant mb-1">CNPJ</label>
+                                        class="block font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 mb-1">CNPJ</label>
                                     <input id="input-cnpj"
                                         class="w-full px-4 py-3 bg-[#F1F5F9] border-2 border-transparent focus:border-secondary rounded font-body-md"
                                         type="text" placeholder="00.000.000/0001-00">
                                 </div>
                                 <div>
                                     <label
-                                        class="block font-label-mono text-label-mono text-on-surface-variant mb-1">ENDEREÇO</label>
+                                        class="block font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 mb-1">ENDEREÇO</label>
                                     <input id="input-endereco"
                                         class="w-full px-4 py-3 bg-[#F1F5F9] border-2 border-transparent focus:border-secondary rounded font-body-md"
                                         type="text" placeholder="Av. Principal, 1000">
@@ -232,8 +245,8 @@
 
                 <!-- Capacity Settings -->
                 <section
-                    class="bg-white border border-outline-variant p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
-                    <div class="flex items-center gap-2 mb-stack-md border-b border-outline-variant pb-stack-sm">
+                    class="bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
+                    <div class="flex items-center gap-2 mb-stack-md border-b border-outline-variant dark:border-slate-700 pb-stack-sm">
                         <span class="material-symbols-outlined text-secondary">domain</span>
                         <h3 class="font-headline-sm text-headline-sm">Capacidade do Estacionamento</h3>
                     </div>
@@ -251,15 +264,15 @@
 
                 <!-- Formas de Pagamento Settings -->
                 <section
-                    class="bg-white border border-outline-variant p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
-                    <div class="flex items-center gap-2 mb-stack-md border-b border-outline-variant pb-stack-sm">
+                    class="bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
+                    <div class="flex items-center gap-2 mb-stack-md border-b border-outline-variant dark:border-slate-700 pb-stack-sm">
                         <span class="material-symbols-outlined text-secondary">credit_card</span>
                         <h3 class="font-headline-sm text-headline-sm">Formas de Pagamento Permitidas</h3>
                     </div>
                     <form id="payment-form" class="space-y-stack-sm mb-stack-md">
                         <div class="flex flex-col sm:flex-row gap-4 items-end">
                             <div class="flex-1 w-full">
-                                <label class="block font-label-mono text-label-mono text-on-surface-variant mb-1">NOVA
+                                <label class="block font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 mb-1">NOVA
                                     FORMA DE PAGAMENTO</label>
                                 <div class="relative">
                                     <input id="input-payment-name" required
@@ -274,23 +287,23 @@
                             </button>
                         </div>
                     </form>
-                    <div id="payment-list" class="space-y-2 mt-4 border-t border-outline-variant pt-4">
+                    <div id="payment-list" class="space-y-2 mt-4 border-t border-outline-variant dark:border-slate-700 pt-4">
                         <!-- Populado por JS -->
                     </div>
                 </section>
 
                 <section
-                    class="bg-white border border-outline-variant p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
-                    <div class="flex items-center gap-2 mb-stack-md border-b border-outline-variant pb-stack-sm">
+                    class="bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
+                    <div class="flex items-center gap-2 mb-stack-md border-b border-outline-variant dark:border-slate-700 pb-stack-sm">
                         <span class="material-symbols-outlined text-secondary">payments</span>
                         <h3 class="font-headline-sm text-headline-sm">Nova Regra de Preço</h3>
                     </div>
                     <form id="price-form" class="space-y-stack-md">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md items-center">
                             <div>
-                                <label class="block font-label-mono text-label-mono text-on-surface-variant mb-1">TIPO
+                                <label class="block font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 mb-1">TIPO
                                     DE REGRA</label>
-                                <p class="text-xs text-on-surface-variant mb-2">Se a regra é Base (ex: 1ª Hora) ou
+                                <p class="text-xs text-on-surface-variant dark:text-slate-400 mb-2">Se a regra é Base (ex: 1ª Hora) ou
                                     Adicional (ex: hora extra)</p>
                             </div>
                             <div class="relative">
@@ -304,9 +317,9 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md items-center">
                             <div>
                                 <label
-                                    class="block font-label-mono text-label-mono text-on-surface-variant mb-1">DESCRIÇÃO
+                                    class="block font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 mb-1">DESCRIÇÃO
                                     DA REGRA</label>
-                                <p class="text-xs text-on-surface-variant mb-2">Ex: Primeira Hora, Diária, Hora
+                                <p class="text-xs text-on-surface-variant dark:text-slate-400 mb-2">Ex: Primeira Hora, Diária, Hora
                                     Adicional</p>
                             </div>
                             <div class="relative">
@@ -318,8 +331,8 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md items-center">
                             <div>
                                 <label
-                                    class="block font-label-mono text-label-mono text-on-surface-variant mb-1">PERÍODO</label>
-                                <p class="text-xs text-on-surface-variant mb-2">Tempo para essa cobrança</p>
+                                    class="block font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 mb-1">PERÍODO</label>
+                                <p class="text-xs text-on-surface-variant dark:text-slate-400 mb-2">Tempo para essa cobrança</p>
                             </div>
                             <div class="flex gap-2">
                                 <input id="input-mins" required min="1"
@@ -335,13 +348,13 @@
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md items-center">
                             <div>
-                                <label class="block font-label-mono text-label-mono text-on-surface-variant mb-1">VALOR
+                                <label class="block font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 mb-1">VALOR
                                     (R$)</label>
-                                <p class="text-xs text-on-surface-variant mb-2">Valor cobrado por este período</p>
+                                <p class="text-xs text-on-surface-variant dark:text-slate-400 mb-2">Valor cobrado por este período</p>
                             </div>
                             <div class="relative group">
                                 <span
-                                    class="absolute left-3 top-1/2 -translate-y-1/2 font-data-display text-on-surface-variant">R$</span>
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 font-data-display text-on-surface-variant dark:text-slate-400">R$</span>
                                 <input id="input-valor" required min="0" step="0.01"
                                     class="w-full pl-10 pr-4 py-3 bg-[#F1F5F9] border-2 border-transparent focus:border-secondary focus:ring-0 rounded font-data-display text-data-display transition-colors"
                                     placeholder="0.00" type="number" />
@@ -351,9 +364,9 @@
                 </section>
                 <!-- Zone Multipliers -->
                 <section
-                    class="bg-white border border-outline-variant p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
+                    class="bg-white dark:bg-slate-800 border border-outline-variant dark:border-slate-700 p-stack-md rounded-lg shadow-[rgba(15,23,42,0.04)_0px_2px_4px]">
                     <div
-                        class="flex items-center justify-between mb-stack-md border-b border-outline-variant pb-stack-sm">
+                        class="flex items-center justify-between mb-stack-md border-b border-outline-variant dark:border-slate-700 pb-stack-sm">
                         <div class="flex items-center gap-2">
                             <span class="material-symbols-outlined text-secondary">layers</span>
                             <h3 class="font-headline-sm text-headline-sm">Regras Cadastradas</h3>
@@ -376,7 +389,7 @@
                     </button>
                 </div>
                 <!-- Industrial Illustration Card -->
-                <div class="relative overflow-hidden h-40 rounded-lg border border-outline-variant">
+                <div class="relative overflow-hidden h-40 rounded-lg border border-outline-variant dark:border-slate-700">
                     <div class="bg-cover bg-center w-full h-full"
                         data-alt="A macro photograph of high-tech parking sensor hardware, featuring sleek matte black metal casing and a glowing blue LED indicator. The lighting is cold and industrial, emphasizing the precision engineering and durability of the device. The background is a blurred concrete texture typical of modern urban infrastructure. High-contrast and professional aesthetic."
                         style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDFNb2rA2dcwLIpn6oEYx-M4T6xrYpF-qhn41dLBTQQtg1qU1b6JXhssyDdMzqJ2jeUrjgolb87VeKpGwy4Uk_qPIK4aLYSiynRCRp0QQOWZZVcNpXJEz4a87Q035jOkIUIEZPnoHAyD_0aP-Mst4aSCKvYexCXvk6m1v2c4tDBOzEpEMTcwZSb0vBZhV0kd-5Y-sqIHotMk68Ujxf6MRWkHO8gLrPpLZ1mWviwPx9mZ7m9l230yVy6vzjXDaaQSkRN5ctJbam2tW3M')">
@@ -391,15 +404,15 @@
         </div>
     </main>
     <nav
-        class="fixed bottom-0 w-full z-50 h-20 bg-surface dark:bg-primary-container border-t border-outline-variant dark:border-outline md:hidden">
+        class="fixed bottom-0 w-full z-50 h-20 bg-surface dark:bg-primary-container border-t border-outline-variant dark:border-slate-700 dark:border-outline md:hidden">
         <div class="flex justify-around items-center w-full px-4 h-full">
-            <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2"
+            <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-slate-400 dark:text-surface-variant hover:bg-surface-container dark:bg-slate-800-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2"
                 href="/registro.html">
                 <span class="material-symbols-outlined"
                     style="font-variation-settings: 'FILL' 1;">app_registration</span>
                 <span class="font-label-mono text-[10px] uppercase mt-1">Registro</span>
             </a>
-            <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2"
+            <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-slate-400 dark:text-surface-variant hover:bg-surface-container dark:bg-slate-800-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2"
                 href="/relatorios.html">
                 <span class="material-symbols-outlined">analytics</span>
                 <span class="font-label-mono text-[10px] uppercase mt-1">Relatórios</span>
@@ -423,6 +436,56 @@
             button.addEventListener('mouseleave', () => {
                 button.classList.remove('scale-95');
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.querySelector('.btn-theme-toggle');
+            const themeIcon = document.querySelector('.theme-icon');
+            
+            function updateIcon(isDark) {
+                if (themeIcon) {
+                    themeIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
+                }
+            }
+            
+            const isDark = document.documentElement.classList.contains('dark');
+            updateIcon(isDark);
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    const isCurrentlyDark = document.documentElement.classList.contains('dark');
+                    const newTheme = isCurrentlyDark ? 'light' : 'dark';
+                    if (isCurrentlyDark) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('theme', 'light');
+                        updateIcon(false);
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('theme', 'dark');
+                        updateIcon(true);
+                    }
+
+                    // Update config page buttons explicitly
+                    const btnThemeLight = document.getElementById('btn-theme-light');
+                    const btnThemeDark = document.getElementById('btn-theme-dark');
+                    if (btnThemeLight && btnThemeDark) {
+                        if (newTheme === 'dark') {
+                            btnThemeDark.classList.remove('text-on-surface-variant', 'bg-transparent', 'hover:text-primary');
+                            btnThemeDark.classList.add('bg-white', 'dark:bg-surface-variant', 'shadow-sm', 'text-primary', 'dark:text-white');
+                            
+                            btnThemeLight.classList.remove('bg-white', 'shadow-sm', 'text-primary');
+                            btnThemeLight.classList.add('text-on-surface-variant', 'bg-transparent', 'hover:text-primary');
+                        } else {
+                            btnThemeLight.classList.remove('text-on-surface-variant', 'bg-transparent', 'hover:text-primary');
+                            btnThemeLight.classList.add('bg-white', 'shadow-sm', 'text-primary');
+                            
+                            btnThemeDark.classList.remove('bg-white', 'dark:bg-surface-variant', 'shadow-sm', 'text-primary', 'dark:text-white');
+                            btnThemeDark.classList.add('text-on-surface-variant', 'bg-transparent', 'hover:text-primary');
+                        }
+                    }
+                });
+            }
         });
     </script>
     <script type="module" src="./configuracao.js"></script>

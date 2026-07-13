@@ -20,6 +20,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
+    // --- Theme Settings ---
+    const btnThemeLight = document.getElementById('btn-theme-light');
+    const btnThemeDark = document.getElementById('btn-theme-dark');
+
+    function updateThemeUI(theme) {
+        if (!btnThemeLight || !btnThemeDark) return;
+        
+        if (theme === 'dark') {
+            btnThemeDark.classList.remove('text-on-surface-variant', 'bg-transparent', 'hover:text-primary');
+            btnThemeDark.classList.add('bg-white', 'dark:bg-surface-variant', 'shadow-sm', 'text-primary', 'dark:text-white');
+            
+            btnThemeLight.classList.remove('bg-white', 'shadow-sm', 'text-primary');
+            btnThemeLight.classList.add('text-on-surface-variant', 'bg-transparent', 'hover:text-primary');
+        } else {
+            btnThemeLight.classList.remove('text-on-surface-variant', 'bg-transparent', 'hover:text-primary');
+            btnThemeLight.classList.add('bg-white', 'shadow-sm', 'text-primary');
+            
+            btnThemeDark.classList.remove('bg-white', 'dark:bg-surface-variant', 'shadow-sm', 'text-primary', 'dark:text-white');
+            btnThemeDark.classList.add('text-on-surface-variant', 'bg-transparent', 'hover:text-primary');
+        }
+    }
+
+    if (btnThemeLight && btnThemeDark) {
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        updateThemeUI(currentTheme);
+
+        btnThemeLight.addEventListener('click', () => {
+            localStorage.setItem('theme', 'light');
+            document.documentElement.classList.remove('dark');
+            updateThemeUI('light');
+        });
+
+        btnThemeDark.addEventListener('click', () => {
+            localStorage.setItem('theme', 'dark');
+            document.documentElement.classList.add('dark');
+            updateThemeUI('dark');
+        });
+    }
+
     const form = document.getElementById('price-form');
     const inputDesc = document.getElementById('input-desc');
     const inputTipo = document.getElementById('input-tipo');

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html class="light" lang="pt-br"><head>
+<html lang="pt-br"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>TECPARK - Registro de Veículo</title>
@@ -119,10 +119,17 @@
         top: env(safe-area-inset-top) !important;
     }
 </style>
+<script>
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>
 </head>
-<body class="bg-background text-on-surface min-h-screen flex flex-col mb-24 overflow-x-hidden">
+<body class="bg-background dark:bg-slate-900 text-on-surface dark:text-slate-200 min-h-screen flex flex-col mb-24 overflow-x-hidden">
 <!-- TopAppBar -->
-<header class="w-full top-0 sticky bg-surface dark:bg-primary-container border-b border-outline-variant dark:border-outline z-50 transition-all duration-150">
+<header class="w-full top-0 sticky bg-surface dark:bg-primary-container border-b border-outline-variant dark:border-slate-700 dark:border-outline z-50 transition-all duration-150">
 <div class="flex items-center justify-between px-container-padding-mobile md:px-container-padding-desktop h-16 w-full">
 <div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-primary dark:text-primary-fixed" style="font-variation-settings: 'FILL' 1; font-size: 28px;">local_parking</span>
@@ -130,41 +137,46 @@
 </div>
 <div class="hidden md:flex items-center gap-stack-lg">
 <a href="/registro.html" class="font-label-mono text-label-mono text-primary dark:text-secondary-fixed-dim uppercase">Registro</a>
-<a href="/relatorios.html" class="font-label-mono text-label-mono text-on-surface-variant dark:text-surface-variant uppercase hover:bg-surface-container dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Relatórios</a>
-<a href="/configuracao.html" class="font-label-mono text-label-mono text-on-surface-variant dark:text-surface-variant uppercase hover:bg-surface-container dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Configurações</a>
+<a href="/relatorios.html" class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 dark:text-surface-variant uppercase hover:bg-surface-container dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Relatórios</a>
+<a href="/configuracao.html" class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 dark:text-surface-variant uppercase hover:bg-surface-container dark:hover:bg-inverse-surface px-3 py-1 rounded transition-all">Configurações</a>
 </div>
-<div class="relative flex items-center gap-2 group cursor-pointer p-2">
-<span class="font-label-mono text-[10px] text-on-surface-variant hidden sm:block user-email-display uppercase">Usuário</span>
-<span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
-<div class="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-primary-container border border-outline-variant dark:border-outline rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-<button class="w-full text-left px-4 py-3 font-label-mono text-label-mono text-error hover:bg-surface-container dark:hover:bg-inverse-surface flex items-center gap-2 btn-logout transition-colors">
+<div class="relative flex items-center gap-2 group p-2">
+<button class="btn-theme-toggle p-2 text-on-surface-variant dark:text-slate-400 hover:text-primary transition-colors flex items-center justify-center rounded-full hover:bg-surface-container dark:hover:bg-inverse-surface" title="Alternar Tema">
+    <span class="material-symbols-outlined theme-icon" style="font-size: 20px;">dark_mode</span>
+</button>
+<div class="flex items-center gap-2 cursor-pointer" onclick="this.querySelector('.absolute').classList.toggle('opacity-0'); this.querySelector('.absolute').classList.toggle('invisible');">
+<span class="font-label-mono text-[10px] text-on-surface-variant dark:text-slate-400 hidden sm:block user-email-display uppercase">Usuário</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">account_circle</span>
+<div class="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-slate-800 dark:bg-primary-container border border-outline-variant dark:border-slate-700 dark:border-outline rounded shadow-lg opacity-0 invisible transition-all duration-200 z-50">
+<button class="w-full text-left px-4 py-3 font-label-mono text-label-mono text-error hover:bg-surface-container dark:bg-slate-800 dark:hover:bg-inverse-surface flex items-center gap-2 btn-logout transition-colors">
 <span class="material-symbols-outlined text-sm">logout</span>
 Sair do Sistema
 </button>
 </div>
 </div>
 </div>
+</div>
 </header>
 <main class="flex-grow w-full max-w-4xl mx-auto px-container-padding-mobile md:px-container-padding-desktop py-stack-lg flex flex-col gap-stack-lg mb-24">
 <!-- Registration Card -->
-<section class="bg-surface-container-lowest border border-outline-variant rounded-lg p-stack-md technical-shadow">
+<section class="bg-surface-container dark:bg-slate-800-lowest border border-outline-variant dark:border-slate-700 rounded-lg p-stack-md technical-shadow">
 <div class="flex flex-col gap-stack-md">
 <header class="flex items-center justify-between">
 <h2 class="font-headline-sm text-headline-sm text-primary">Novo Registro</h2>
-<span class="font-label-mono text-label-mono text-on-surface-variant bg-surface-container px-2 py-1 rounded">ESTAÇÃO 04</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 bg-surface-container dark:bg-slate-800 px-2 py-1 rounded">ESTAÇÃO 04</span>
 </header>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
 <!-- License Plate Input -->
 <div class="flex flex-col gap-stack-sm">
-<label class="font-label-mono text-label-mono text-on-surface-variant uppercase">Placa do Veículo</label>
+<label class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 uppercase">Placa do Veículo</label>
 <input class="license-plate-input font-data-display text-data-display bg-[#F1F5F9] border-2 border-outline rounded-lg px-4 py-3 focus:border-primary focus:ring-0 w-full transition-all" id="plate-input" maxlength="8" placeholder="ABC-1234" type="text"/>
 </div>
 <!-- Time Display (Server Emulation) -->
 <div class="flex flex-col gap-stack-sm">
-<label class="font-label-mono text-label-mono text-on-surface-variant uppercase">Horário Atual (Servidor)</label>
-<div class="bg-surface-container border border-outline-variant rounded-lg px-4 py-3 flex items-center justify-between">
+<label class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 uppercase">Horário Atual (Servidor)</label>
+<div class="bg-surface-container dark:bg-slate-800 border border-outline-variant dark:border-slate-700 rounded-lg px-4 py-3 flex items-center justify-between">
 <span class="font-data-display text-data-display text-primary" id="current-time">14:35:02</span>
-<span class="material-symbols-outlined text-on-surface-variant">schedule</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-slate-400">schedule</span>
 </div>
 </div>
 </div>
@@ -193,7 +205,7 @@ Sair do Sistema
 </section>
 <!-- Visualization/Atmosphere (Bento-style detail) -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md mt-4">
-<div class="md:col-span-2 relative h-48 rounded-lg overflow-hidden technical-shadow border border-outline-variant bg-slate-900">
+<div class="md:col-span-2 relative h-48 rounded-lg overflow-hidden technical-shadow border border-outline-variant dark:border-slate-700 bg-slate-900">
 <div class="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none">
 
 </div>
@@ -202,25 +214,25 @@ Sair do Sistema
 <p class="font-body-md text-white/70">Fluxo de tráfego otimizado na entrada principal.</p>
 </div>
 </div>
-<div class="bg-surface border border-outline-variant rounded-lg p-4 flex flex-col justify-center items-center gap-2 technical-shadow">
+<div class="bg-surface border border-outline-variant dark:border-slate-700 rounded-lg p-4 flex flex-col justify-center items-center gap-2 technical-shadow">
 <span class="material-symbols-outlined text-4xl text-secondary">analytics</span>
 <span id="capacity-percentage" class="font-display-lg text-display-lg text-primary">0%</span>
-<span class="font-label-mono text-label-mono text-on-surface-variant text-center uppercase">Capacidade Atual</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant dark:text-slate-400 text-center uppercase">Capacidade Atual</span>
 </div>
 </div>
 </main>
 <!-- BottomNavBar -->
-<nav class="fixed bottom-0 w-full z-50 h-20 bg-surface dark:bg-primary-container border-t border-outline-variant dark:border-outline md:hidden">
+<nav class="fixed bottom-0 w-full z-50 h-20 bg-surface dark:bg-primary-container border-t border-outline-variant dark:border-slate-700 dark:border-outline md:hidden">
 <div class="flex justify-around items-center w-full px-4 h-full">
 <a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-5 py-1 transition-transform duration-200 active:scale-90" href="/registro.html">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">app_registration</span>
 <span class="font-label-mono text-[10px] uppercase mt-1">Registro</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2" href="/relatorios.html">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-slate-400 dark:text-surface-variant hover:bg-surface-container dark:bg-slate-800-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2" href="/relatorios.html">
 <span class="material-symbols-outlined">analytics</span>
 <span class="font-label-mono text-[10px] uppercase mt-1">Relatórios</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2" href="/configuracao.html">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-slate-400 dark:text-surface-variant hover:bg-surface-container dark:bg-slate-800-high dark:hover:bg-inverse-surface transition-transform duration-200 active:scale-90 p-2" href="/configuracao.html">
 <span class="material-symbols-outlined">settings</span>
 <span class="font-label-mono text-[10px] uppercase mt-1">Configurações</span>
 </a>
@@ -249,6 +261,36 @@ Sair do Sistema
                 e.target.value = val.slice(0, 8);
             });
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBtn = document.querySelector('.btn-theme-toggle');
+            const themeIcon = document.querySelector('.theme-icon');
+            
+            function updateIcon(isDark) {
+                if (themeIcon) {
+                    themeIcon.textContent = isDark ? 'light_mode' : 'dark_mode';
+                }
+            }
+            
+            const isDark = document.documentElement.classList.contains('dark');
+            updateIcon(isDark);
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    const isCurrentlyDark = document.documentElement.classList.contains('dark');
+                    if (isCurrentlyDark) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('theme', 'light');
+                        updateIcon(false);
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('theme', 'dark');
+                        updateIcon(true);
+                    }
+                });
+            }
+        });
     </script>
     <script type="module" src="./registro.js"></script>
 </body></html>
